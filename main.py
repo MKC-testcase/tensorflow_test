@@ -30,11 +30,17 @@ tf.nn.softmax(predictions).numpy()
 loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 loss_fn(y_train[:1], predictions).numpy()
 
+#adam is the name of te optimizer  learning rate 0.001, beta_1 = 0.9, beta_2 =0.999, epsilon = 1e07, amsgrad=false
+#the rest of the variables in the compile should be self explanatory
 model.compile(optimizer= 'adam', loss = loss_fn, metrics = ['accuracy'])
+#adjusts model parameteres to minimize the loss
 model.fit(x_train, y_train, epochs = 5)
 
+# checks model performace on a validation -set, test set
 model.evaluate(x_test, y_test, verbose=2)
 
+#at this point the model is 98 % trained on the current dataset
+#to return a probability swrap the trained model and attach the softmax like the code below excluding line 47
 probability_model = tf.keras.Sequential([model,
                                          tf.keras.layers.Softmax()
                                          ])
